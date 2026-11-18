@@ -1,12 +1,13 @@
 import java.util.Scanner;
 import java.util.List;
+import java.util.ArrayList;
 public class main{
     public static void main(String[] args){
         Object resultat=0;
         boolean com=true;
         int changement=0;
-        List<String> operation;
-        List<Object> nombre;
+        List<String> operation=new ArrayList<>();
+        List<Object> nombre=new ArrayList<>();
         byte stade;
         Scanner clavier=new Scanner(System.in);
         System.out.println("Bonjour dans Ma calculatrice");
@@ -24,7 +25,7 @@ public class main{
                 int op=clavier.nextInt();
                 resultat=switch(op){
                     case 1-> {System.out.println("l'operation choisit est la somme");
-                        operation.add("+")
+                        operation.add("+");
                         System.out.println("""
                                         ===Type de variable
                                         1.byte
@@ -35,85 +36,79 @@ public class main{
                                         6.double
                                         7.caractere
                                         default.int""");
-                        int type=clavier.nextInt("entre le numero du type correspondant");
+                        System.out.println("entre le numero du type correspondant");
+                        int type=clavier.nextInt();
                         switch(type){
                             case 1->{
                                 System.out.println("entre ton nombre de type byte");
                                 System.out.println(Byte.MIN_VALUE+" <= nombre choisit <= "+Byte.MAX_VALUE);
                                 byte chif=clavier.nextByte();
-                                nombre.add(chif);
-                                if (resultat.getClass()!=Object){
-                                    if (resultat.getClass()!=chif.getClass()){
-                                        System.out.println("Le type choisit doit etre changer car il n'est pas compatible avec le type avec lequel vous travailler");
-                                        System.out.println("le type de votre variable vas se convertir vers le type de resultat 'conversion d'ajustement' le type adopter est: ",resultat.getClass());
-                                        (resultat.getClass) chif;
-                                    }
-                                }
-
-                                if (resultat.getClass() == Integer) {
-                                    if (chif + resultat < Integer.MIN_VALUE || chif + resultat > Integer.MAX_VALUE) {
+                                if (resultat instanceof Integer) {
+                                    if (Math.addExact((Integer) resultat,chif) < Integer.MIN_VALUE && Math.addExact((Integer) resultat,chif) Integer.MAX_VALUE) {
                                         System.out.println("depassement d'une borne limite du type int");
                                         System.out.println("on va te proposer le changement de type le plus aproprier");
-                                        if (Long.MIN_VALUE <= chif + resultat && chif + resultat <= Long.MAX_VALUE) {
+                                        if (Long.MIN_VALUE <= Math.addExact((Integer)resultat,chif) && Math.addExact((Integer)resultat,chif) <= Long.MAX_VALUE) {
                                             System.out.println("Long peux etre choisit comme type,entrer 0 si vous vouler l'addopter comme type à ce stade");
                                             changement = clavier.nextInt();
                                             if (changement == 0) {
-                                                (long) resultat;
                                                 System.out.println("chanegement de type : int => Long");
+                                                yield resultat=((Number)resultat).longValue() +chif;
                                             }
-                                        } else - if (Float.MIN_VALUE <= chif + resultat && chif + resultat <= Float.MAX_VALUE) {
+
+                                        } else if (!Float.isInfinite((Number resultat).floatValue()+chif)) {
                                             System.out.println("Float peux etre choisit comme type,avant de choisir de continuer on vas voir la difference de precision");
-                                            float convf=(float) chif+resultat;
-                                            System.out.println("la difference quand on a adopter une conversion vers float ",convf - chif-resultat);
-                                            double convd=(double) chif+resultat;
-                                            System.out.println("la difference quand on a adopter une conversion vers double ",convd - chif-resultat);
+                                            float convf=((Number) resultat).floatValue() +chif;
+                                            System.out.println("la difference quand on a adopter une conversion vers float "+convf - chif-((Number) resultat).floatValue());
+                                            double convd=((Number) resultat).doubleValue()+chif;
+                                            System.out.println("la difference quand on a adopter une conversion vers double "+convd - chif-((Number) resultat).floatValue());
                                             System.out.println("pour choisir la conversion vers float choisir 0 sinon choisir 1 pour double");
                                             changement = clavier.nextInt();
                                             if (changement == 0) {
-                                                (long) resultat;
                                                 System.out.println("chanegement de type : int => Float");
+                                                yield resultat=((Number)resultat).floatValue() +chif;
                                             }
                                             if (changement==1){
-                                                (float) resultat;
+                                                System.out.println("chanegement de type : int => Double");
+                                                yield resultat=((Number)resultat).doubleValue() +chif;
                                             }
                                         } else {
                                             System.out.println("la conersion en double est la seule possible");
-                                            (double) resultat;
                                             System.out.println("chanegement de type : int => Double");
+                                            yield resultat=((Number)resultat).doubleValue() +chif;
                                         }
                                     }
                                 }
-                                else-if (resultat.getClass() == Long) {
+                                else if (resultat.getClass() == Long.class) {
                                     if (chif + resultat < Long.MIN_VALUE || chif + resultat > Long.MAX_VALUE) {
                                         System.out.println("depassement d'une borne limite du type Long");
                                         System.out.println("on va te proposer le changement de type le plus aproprier");
-                                         if (Float.MIN_VALUE <= chif + resultat && chif + resultat <= Float.MAX_VALUE) {
+                                         if (-Float.MAX_VALUE <= chif + resultat && chif + resultat <= Float.MAX_VALUE) {
                                             System.out.println("Float peux etre choisit comme type,avant de choisir de continuer on vas voir la difference de precision");
                                             float convf=(float) chif+resultat;
-                                            System.out.println("la difference quand on a adopter une conversion vers float ",convf - chif-resultat);
+                                            System.out.println("la difference quand on a adopter une conversion vers float "+convf - chif-resultat);
                                             double convd=(double) chif+resultat;
-                                            System.out.println("la difference quand on a adopter une conversion vers double ",convd - chif-resultat);
+                                            System.out.println("la difference quand on a adopter une conversion vers double "+convd - chif-resultat);
                                             System.out.println("pour choisir la conversion vers float choisir 0 sinon choisir 1 pour double");
                                             changement = clavier.nextInt();
                                             if (changement == 0) {
-                                                (long) resultat;
+                                                resultat=(float) resultat;
                                                 System.out.println("chanegement de type : int => Float");
                                             }
                                             if (changement==1){
-                                                (float) resultat;
+                                                resultat=(double) resultat;
                                             }
                                         } else {
                                             System.out.println("la conersion en double est la seule possible");
-                                            (double) resultat;
+                                            resultat=(double) resultat;
                                             System.out.println("chanegement de type : int => Double");
                                         }
                                     }
                                 }
-                                else-if (resultat.getClass() == Float) {
-                                    if (chif + resultat < Float.MIN_VALUE || chif + resultat > Float.MAX_VALUE) {
+                                else if (resultat.getClass() == Float.class) {
+                                    if (chif + resultat < -Float.MAX_VALUE || chif + resultat > Float.MAX_VALUE) {
                                         System.out.println("depassement d'une borne limite du type Float");
                                         System.out.println("la conersion en double est la seule possible");
-                                        (double) resultat;
+                                        resultat=(double) resultat;
                                         System.out.println("chanegement de type : int => Double");
                                     }
                                 }
@@ -134,19 +129,19 @@ public class main{
                                 yield resultat+=chif;}
                             case 4->{
                                 System.out.println("entre ton nombre de type long");
-                                if (com) System.out.println("on n'a pas une promotion numérique"
+                                if (com) System.out.println("on n'a pas une promotion numérique")
                                 long chif=clavier.nextLong();
                                 nombre.add(chif);
                                 yield resultat+=chif;}
                             case 5->{
                                 System.out.println("entre ton nombre de type float");
-                                if (com) System.out.println("on n'a pas une promotion numérique"
+                                if (com) System.out.println("on n'a pas une promotion numérique")
                                 float chif=clavier.nextFloat();
                                 nombre.add(chif);
                                 yield resultat+=chif;}
                             case 6->{
                                 System.out.println("entre ton nombre de type double");
-                                if (com) System.out.println("on n'a pas une promotion numérique"
+                                if (com) System.out.println("on n'a pas une promotion numérique")
                                 double chif=clavier.nextDouble();
                                 nombre.add(chif);
                                 yield resultat+=chif;}
