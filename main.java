@@ -44,37 +44,11 @@ public class main{
                                 System.out.println(Byte.MIN_VALUE+" <= nombre choisit <= "+Byte.MAX_VALUE);
                                 byte chif=clavier.nextByte();
                                 if (resultat instanceof Integer) {
-                                    if (Math.addExact((Integer) resultat,chif) < Integer.MIN_VALUE && Math.addExact((Integer) resultat,chif) Integer.MAX_VALUE) {
+                                    long somme = (long) (Integer) resultat + chif;
+                                    if (somme < Integer.MIN_VALUE || somme> Integer.MAX_VALUE) {
                                         System.out.println("depassement d'une borne limite du type int");
-                                        System.out.println("on va te proposer le changement de type le plus aproprier");
-                                        if (Long.MIN_VALUE <= Math.addExact((Integer)resultat,chif) && Math.addExact((Integer)resultat,chif) <= Long.MAX_VALUE) {
-                                            System.out.println("Long peux etre choisit comme type,entrer 0 si vous vouler l'addopter comme type à ce stade");
-                                            changement = clavier.nextInt();
-                                            if (changement == 0) {
-                                                System.out.println("chanegement de type : int => Long");
-                                                yield resultat=((Number)resultat).longValue() +chif;
-                                            }
-
-                                        } else if (!Float.isInfinite((Number resultat).floatValue()+chif)) {
-                                            System.out.println("Float peux etre choisit comme type,avant de choisir de continuer on vas voir la difference de precision");
-                                            float convf=((Number) resultat).floatValue() +chif;
-                                            System.out.println("la difference quand on a adopter une conversion vers float "+convf - chif-((Number) resultat).floatValue());
-                                            double convd=((Number) resultat).doubleValue()+chif;
-                                            System.out.println("la difference quand on a adopter une conversion vers double "+convd - chif-((Number) resultat).floatValue());
-                                            System.out.println("pour choisir la conversion vers float choisir 0 sinon choisir 1 pour double");
-                                            changement = clavier.nextInt();
-                                            if (changement == 0) {
-                                                System.out.println("chanegement de type : int => Float");
-                                                yield resultat=((Number)resultat).floatValue() +chif;
-                                            }
-                                            if (changement==1){
-                                                System.out.println("chanegement de type : int => Double");
-                                                yield resultat=((Number)resultat).doubleValue() +chif;
-                                            }
-                                        } else {
-                                            System.out.println("la conersion en double est la seule possible");
-                                            System.out.println("chanegement de type : int => Double");
-                                            yield resultat=((Number)resultat).doubleValue() +chif;
+                                        System.out.println("chanegement de type : int => Long");
+                                        yield resultat=((Number)resultat).longValue() +chif;
                                         }
                                     }
                                 }
